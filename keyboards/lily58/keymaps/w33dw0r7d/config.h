@@ -34,6 +34,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_TERM 100
 
 /* Encoder support */
+#undef ENCODERS_PAD_A
+#undef ENCODERS_PAD_B
+#undef ENCODERS_PAD_A_RIGHT
+#undef ENCODERS_PAD_B_RIGHT
 #define ENCODERS_PAD_A { F5 }
 #define ENCODERS_PAD_B { F4 }
 #define ENCODERS_PAD_A_RIGHT { F4 }
@@ -45,7 +49,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #undef RGBLED_NUM
 #define RGBLED_NUM 12    // Number of LEDs
+#undef RGBLED_SPLIT
+#define RGBLED_SPLIT { 6, 6 }
 #define RGBLIGHT_SLEEP
+#define RGBLIGHT_SPLIT
+#define SPLIT_USB_DETECT
+#undef RGBLIGHT_LIMIT_VAL
 #define RGBLIGHT_LIMIT_VAL 150
 
 #define RGBLIGHT_ANIMATIONS
