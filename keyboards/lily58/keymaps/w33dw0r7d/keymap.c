@@ -19,6 +19,9 @@
 
 //extern uint8_t is_master;
 
+// OLED
+char     wpm_str[10];
+
 enum layer_number {
   _QWERTY = 0,
   _LOWER,
@@ -121,16 +124,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 #ifdef OLED_ENABLE
-
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_keyboard_master())
-    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
-  return rotation;
+    if (is_keyboard_left()) return OLED_ROTATION_270;
+    return OLED_ROTATION_180;
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    state = update_tri_layer_state(state, _RAISE, _LOWER, _ADJUST);
-    return state;
+  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
 static void render_logo(void) {
@@ -184,49 +184,48 @@ const char *read_keylog(void) {
 const char *read_keylogs(void) {
   return keylogs_str;
 }
-//new
+
+static void render_status(void) {
+    // WPM
+    oled_write_ln_P(PSTR("wpm"), false);
+    sprintf(wpm_str, "%03d", get_current_wpm());
+    oled_write_ln(wpm_str, false);
+    oled_write_ln_P(PSTR(""), false);
+
+    // Layer display
+    switch (get_highest_layer(layer_state)) {
+        case _QWERTY:
+            oled_write_ln_P(PSTR("deflt"), false);
+            break;
+        case _RAISE:
+            oled_write_ln_P(PSTR("raise"), false);
+            break;
+        case _LOWER:
+            oled_write_ln_P(PSTR("lower"), false);
+            break;
+        case _ADJUST:
+            oled_write_ln_P(PSTR("adjst"), false);
+            break;
+        default:
+            oled_write_ln_P(PSTR("error"), false);
+    }
+
+    // Show CAPS_LOCK Status
+    // led_t led_state = host_keyboard_led_state();
+    // oled_write_ln_P(PSTR(""), false);
+    // oled_write_ln_P(PSTR(""), false);
+    // oled_write_ln_P(PSTR("caps"), led_state.caps_lock);
+}
 
 bool oled_task_user(void) {
-    if (is_keyboard_master()) {
-        // Host Keyboard Layer Status
-        oled_write_P(PSTR("Layer: "), false);
-
-        switch (get_highest_layer(layer_state)) {
-            case _QWERTY:
-                oled_write_ln_P(PSTR("Default"), false);
-                break;
-            case _RAISE:
-                oled_write_ln_P(PSTR("Raise"), false);
-                break;
-            case _LOWER:
-                oled_write_ln_P(PSTR("Lower"), false);
-                break;
-            case _ADJUST:
-                oled_write_ln_P(PSTR("Adjust"), false);
-                break;
-            default:
-                oled_write_ln_P(PSTR("Undefined"), false);
-        }
-
-        oled_write_ln(read_keylog(), false);
-        oled_write_ln(read_keylogs(), false);
-
+    if (is_keyboard_left()) {
+        render_status();
     } else {
         render_logo();
     }
     return false;
 }
 #endif  // OLED_DRIVER_ENABLE
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-#ifdef OLED_DRIVER_ENABLE
-    set_keylog(keycode, record);
-#endif
-    // set_timelog();
-  }
-  return true;
-}
 
 // Rotary encoder related code
 #ifdef ENCODER_ENABLE

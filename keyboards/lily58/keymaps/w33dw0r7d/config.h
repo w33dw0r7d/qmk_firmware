@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Select hand configuration */
 
-//#define MASTER_LEFT
-//#define MASTER_RIGHT
+// #define MASTER_LEFT
+// #define MASTER_RIGHT
 #define EE_HANDS
 
 #define USE_SERIAL_PD2
@@ -38,19 +38,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #undef ENCODERS_PAD_B
 #undef ENCODERS_PAD_A_RIGHT
 #undef ENCODERS_PAD_B_RIGHT
-#define ENCODERS_PAD_A { F5 }
-#define ENCODERS_PAD_B { F4 }
-#define ENCODERS_PAD_A_RIGHT { F4 }
-#define ENCODERS_PAD_B_RIGHT { F5 }
+#define ENCODERS_PAD_A \
+    { F5 }
+#define ENCODERS_PAD_B \
+    { F4 }
+#define ENCODERS_PAD_A_RIGHT \
+    { F4 }
+#define ENCODERS_PAD_B_RIGHT \
+    { F5 }
 #define ENCODER_RESOLUTION 2
 #define ENCODER_DIRECTION_FLIP
 
 // Underglow
 
 #undef RGBLED_NUM
-#define RGBLED_NUM 12    // Number of LEDs
+#define RGBLED_NUM 12  // Number of LEDs
 #undef RGBLED_SPLIT
-#define RGBLED_SPLIT { 6, 6 }
+#define RGBLED_SPLIT \
+    { 6, 6 }
 #define RGBLIGHT_SLEEP
 #define RGBLIGHT_SPLIT
 #define SPLIT_USB_DETECT
@@ -61,4 +66,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define RGBLIGHT_EFFECT_RAINBOW_MOOD
 #define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_RAINBOW_MOOD
 
-
+// reduce size of image
+#define NO_ACTION_ONESHOT
