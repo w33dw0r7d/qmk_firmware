@@ -18,14 +18,12 @@
 #include <stdio.h>
 
 //extern uint8_t is_master;
-
 enum layer_number {
   _QWERTY = 0,
   _LOWER,
   _RAISE,
   _ADJUST,
 };
-
 #define RAISE MO(_RAISE)
 #define LOWER MO(_LOWER)
 
@@ -111,25 +109,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                   |      |      |      |/       /         \      \ |      |      |      |
  *                   `----------------------------'           '------''--------------------'
  */
-  [_ADJUST] = LAYOUT(
+[_ADJUST] = LAYOUT(
   RESET, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,                   XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
+  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
+  RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX,KC_PAGE_DOWN,KC_PAGE_UP, XXXXXXX, XXXXXXX,
   RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
                              _______, _______, _______, _______, _______,  _______, _______, _______
   )
 };
 
 #ifdef OLED_ENABLE
-// OLED
-
-
-// wpm
 char     current_wpm_str[10];
 char     max_wpm_str[10];
 int   max_wpm     = -1;
 int   current_wpm     = -1;
-
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (is_keyboard_left()) return OLED_ROTATION_270;
