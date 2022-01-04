@@ -19,9 +19,6 @@
 
 //extern uint8_t is_master;
 
-// OLED
-char     wpm_str[10];
-
 enum layer_number {
   _QWERTY = 0,
   _LOWER,
@@ -124,6 +121,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 #ifdef OLED_ENABLE
+// OLED
+
+
+// wpm
+char     current_wpm_str[10];
+char     max_wpm_str[10];
+int   max_wpm     = -1;
+int   current_wpm     = -1;
+
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (is_keyboard_left()) return OLED_ROTATION_270;
     return OLED_ROTATION_180;
@@ -187,9 +194,16 @@ const char *read_keylogs(void) {
 
 static void render_status(void) {
     // WPM
+    current_wpm = get_current_wpm();
+    if (current_wpm > max_wpm) {
+        max_wpm = current_wpm;
+    }
     oled_write_ln_P(PSTR("wpm"), false);
-    sprintf(wpm_str, "%03d", get_current_wpm());
-    oled_write_ln(wpm_str, false);
+    sprintf(current_wpm_str, "%03d", current_wpm);
+    oled_write_ln(current_wpm_str, false);
+    oled_write_ln_P(PSTR("max"), false);
+    sprintf(max_wpm_str, "%03d", max_wpm);
+    oled_write_ln(max_wpm_str, false);
     oled_write_ln_P(PSTR(""), false);
 
     // Layer display
